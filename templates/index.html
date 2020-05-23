@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>input data</title>
+</head>
+<body>
+<label for="name">enter name</label>
+<input type="text" id="name">
+<input type="number" id="age">
+<input type="submit" value="Update" onclick="validate()">
+</body>
+
+<script>
+    function validate() {
+        var name = document.getElementById("name").value;
+        var age = document.getElementById("age").value;
+        if (name.length == 0){
+            alert("please enter name");
+            return 0;
+        }
+        send_data();
+    }
+
+    function send_data() {
+        var http = new XMLHttpRequest();
+
+        var name = document.getElementById("name").value;
+
+        http.onreadystatechange = function(){
+            if (this.readyState == 4 && this.status == 200) {
+                // document.getElementById("data").innerHTML = this.responseText;
+
+                let response = JSON.parse(http.responseText);
+
+                if (response["success"] == 1) {
+                    // alert("data sent successfully");
+                } else {
+                    // alert(response["message"]);
+                }
+
+            }
+        };
+
+
+        response_data = {
+            "name": name
+        }
+
+        var myJSON = JSON.stringify(response_data);
+
+        http.open("POST", "/accecpt_values", false);
+        http.send(myJSON);
+        alert("hello");
+
+    }
+</script>
+</html>
